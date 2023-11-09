@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tablero de Juego</title>
+    <link rel="stylesheet" >
+</head>
+<body>
+    <h2>Crear un tablero de juego</h2>
+    <label for="filas">Número de Filas:</label>
+    <input type="number" id="filas">
+    <label for="columnas">Número de Columnas:</label>
+    <input type="number" id="columnas">
+    <button onclick="crearTablero()">Crear Tablero</button>
+    <br><br>
+    <table id="tablero"></table>
+    <br>
+    <button onclick="contar()">Contar</button>
+    <p id="contador"></p>
+
+    <script>
+
+
+
+
+      function crearTablero() {
+  const filas = parseInt(document.getElementById('filas').value);
+  const columnas = parseInt(document.getElementById('columnas').value);
+
+  if (isNaN(filas) || isNaN(columnas) || filas <= 0 || columnas <= 0) {
+      alert('Por favor, introduce valores válidos para filas y columnas.');
+      return;
+  }
+
+  const tablero = document.getElementById('tablero');
+  tablero.innerHTML = '';
+
+  for (let i = 0; i < filas; i++) {
+      const fila = tablero.insertRow();
+      for (let j = 0; j < columnas; j++) {
+          const celda = fila.insertCell();
+          celda.addEventListener('click', function() {
+              cambiarSimbolo(celda);
+          });
+
+          const randomSymbol = Math.random() < 0.5 ? 'X' : 'O';
+          celda.textContent = randomSymbol;
+      }
+  }
+}
+
+function cambiarSimbolo(celda) {
+  celda.textContent = celda.textContent === 'X' ? 'O' : 'X';
+}
+
+function contar() {
+  const tablero = document.getElementById('tablero');
+  const celdas = tablero.getElementsByTagName('td');
+  let countX = 0;
+  let countO = 0;
+
+  for (let i = 0; i < celdas.length; i++) {
+      if (celdas[i].textContent === 'X') {
+          countX++;
+      } else if (celdas[i].textContent === 'O') {
+          countO++;
+      }
+  }
+
+  document.getElementById('contador').textContent = `Número de Xs: ${countX}, Número de Os: ${countO}`;
+}
+
+    </script>
+</body>
+</html>

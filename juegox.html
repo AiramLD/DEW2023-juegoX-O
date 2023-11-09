@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>JuegoXO</h1>
+  <table></table>
+  <button onclick="countXO()">Contar</button>
+  <p>Número de Xs=<span id ="equis"></span> y números de Os=<span id="oes"></span></p>
+  <script>
+    let filas, columnas;
+    do {
+         filas = parseInt(prompt('Introduce el número de filas'));
+         columnas = parseInt(prompt('Introduce el número de columnas'));
+    } while (isNaN(filas) || isNaN(columnas) || filas <= 0 || columnas <= 0);
+
+    const table = document.querySelector('table');
+    for(let i=0; i <filas; i++){
+        let tr = document.createElement('tr');
+        table.append(tr);
+        for(let j=0; j<columnas;j++){
+            let td = document.createElement('td');
+            let xo = Math.floor((Math.random()*2)) ? "X" : "O";
+            td.textContent = xo;
+            //td.setAttribute('onclick','change(this)');
+            td.onclick = () =>change(td);
+            tr.append(td);
+        }
+    }
+    countXO();
+    function countXO(){
+      let tds = document.querySelectorAll('td');
+      let contadorXs = 0;
+      let contadorOs = 0;
+      tds.forEach(td => {
+        if(td.textContent === 'X'){
+          contadorXs++;
+        }else if(td.textContent === 'O'){
+          contadorOs++;
+        }
+      })
+      document.querySelector('#equis').textContent = contadorXs;
+      document.querySelector('#oes').textContent = contadorOs;
+    }
+    function change(cell) {
+      cell.textContent = cell.textContent === 'X' ? 'O' : 'X';
+      //Comprobamos si la fila es del mismo simbolo.
+      let tr = cell.parentElement;
+      let tds = tr.children;
+      let firstXO = tds[0].textContent;
+      if([...tds].every(td => td.textContent = firstXO)){
+        tr.remove();
+
+      }
+      }
+      //Fin comprobacion
+      countXO();
+
+    </script>
+</body>
+</html>
+
+
+
+//   let tds = document.querySelectorAll('td');
+// let simbolo = cell.textContent;
+// let count = 0;
+// for (let i = 0; i < tds.length; i++) {
+//   if (tds[i].textContent === simbolo) {
+//     count++;
+//   }
+// }
+// if (count === columnas) {
+//   alert(`Ganaste ${simbolo}`);
